@@ -95,6 +95,11 @@ export default class SignalingClient {
     }
   }
 
+  // return whether the connection to the signaling server is open
+  isConnected() {
+    return this.connection && this.connection.readyState == this.connection.OPEN
+  }
+
   // parse a message that comes from the signaling server to JSON
   parseMessage(message) {
     try { return JSON.parse(message) }
