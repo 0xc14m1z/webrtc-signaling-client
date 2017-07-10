@@ -34,6 +34,7 @@ export default class SignalingClient {
         if ( message && message.event ) {
 
           // handle it
+          this.handle(message)
 
         // otherwise throw an error
         } else {
@@ -53,6 +54,45 @@ export default class SignalingClient {
   on(event, callback) {
     this.handlers[event] = callback
     return this   // make this method chainable
+  }
+
+  // handle messages coming from the signaling server
+  handle(message) {
+    const { event } = message
+    const callback = this.handlers[event]
+
+    if ( callback ) {
+      switch ( event ) {
+        case 'connected': {
+          const { user } = message
+          callback(user)
+          break
+        }
+        case 'connectionRequest': {
+          const { user, sessionDescription } = message
+          callback(user, sessionDescription)
+          break
+        }
+        case 'connectionAccepted': {
+          const { user, sessionDescription } = message
+          callback(user, sessionDescription)
+          break
+        }
+        case 'candidateProposal': {
+          const { user, iceCandidate } = message
+          callback(user, iceCandidate)
+          break
+        }
+        case 'disconnected': {
+          const { roomId, disconnectedUserId, users } = message
+          callback(roomId, disconnectedUserId, users)
+          break
+        }
+        default: {
+          throw new Error('Unrecognizable event.')
+        }
+      }
+    }
   }
 
   // parse a message that comes from the signaling server to JSON
