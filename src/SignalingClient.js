@@ -21,11 +21,37 @@ export default class SignalingClient {
     return this     // make this method chainable
   }
 
+  // open the connection to the signaling server and setup listening
+  connect(callback) {
+    this.connection = new WebSocket(this.serverUrl)
+
+    this.connection.onopen = () => {
+
+      this.connection.onmessage = (message) => {
+        message = this.parseMessage(message.data)
+
+        // if the message is well-formed...
+        if ( message && message.event ) {
+
+          // handle it
+
+        // otherwise throw an error
+        } else {
+          throw new Error('Malformed message.')
+        }
+      }
+
+      // connect the user to the signaling server
+
+      callback()
+
+    }
+  }
+
   // parse a message that comes from the signaling server to JSON
   parseMessage(message) {
     try { return JSON.parse(message) }
     catch (exception) { return undefined }
   }
-
 
 }
