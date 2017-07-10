@@ -42,6 +42,7 @@ export default class SignalingClient {
       }
 
       // connect the user to the signaling server
+      this.send({ command: 'connect', roomId: this.roomId, userId: this.userId })
 
       callback()
 
