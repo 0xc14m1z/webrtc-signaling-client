@@ -21,4 +21,11 @@ export default class SignalingClient {
     return this     // make this method chainable
   }
 
+  // parse a message that comes from the signaling server to JSON
+  parseMessage(message) {
+    try { return JSON.parse(message) }
+    catch (exception) { return undefined }
+  }
+
+
 }
