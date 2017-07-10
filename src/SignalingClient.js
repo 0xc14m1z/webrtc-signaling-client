@@ -49,6 +49,12 @@ export default class SignalingClient {
     }
   }
 
+  // allow users of this class to listen for specific events
+  on(event, callback) {
+    this.handlers[event] = callback
+    return this   // make this method chainable
+  }
+
   // parse a message that comes from the signaling server to JSON
   parseMessage(message) {
     try { return JSON.parse(message) }
