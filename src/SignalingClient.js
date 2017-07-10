@@ -54,4 +54,9 @@ export default class SignalingClient {
     catch (exception) { return undefined }
   }
 
+  // send a JSON formatted message to the signaling server
+  send(message) {
+    this.connection.send(JSON.stringify(message))
+  }
+
 }
