@@ -1,0 +1,9 @@
+{
+  "extends": "airbnb-base",
+  "plugins": [
+    "import"
+  ],
+  "rules": {
+    "no-unused-expressions": ["error", { "allowTernary": true }]
+  }
+}
